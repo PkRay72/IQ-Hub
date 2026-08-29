@@ -1,0 +1,40 @@
+package com.meerut.mit.training;
+
+class Employee1{
+	int empId;
+	String name;
+	private double salary;
+	
+	
+	public Employee1(int empId, String name, double salary) {
+	
+		this.empId = empId;
+		this.name = name;
+		this.salary = salary;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	void display() {
+		System.out.println("Id:" + empId);
+		System.out.println("Name :" + name);
+		System.out.println("salary :" + salary);
+		
+	}
+}
+
+public class EncapsulationDemo {
+	public static void main(String[] args) {
+		Employee1 emp1=new Employee1(23,"Mohan",10000);
+		System.out.println(emp1.getSalary());
+		System.out.println();
+		emp1.getSalary();
+		
+		
+		
+	}
+
+}

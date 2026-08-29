@@ -1,0 +1,5 @@
+package in.ac.mitmeerut.iqhub.controller;
+
+public class HomeController {
+
+}
