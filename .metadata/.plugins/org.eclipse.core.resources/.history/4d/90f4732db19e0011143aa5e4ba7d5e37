@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HOD Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark px-3">
+    <span class="navbar-brand">IQHub - HOD</span>
+    <div>
+        <a class="btn btn-sm btn-light me-2" th:href="@{/profile}">My Profile</a>
+        <a class="btn btn-sm btn-light me-2" th:href="@{/hod/results}">All Student Results</a>
+        <form th:action="@{/logout}" method="post" class="d-inline">
+            <button class="btn btn-sm btn-outline-light">Logout</button>
+        </form>
+    </div>
+</nav>
+<div class="container mt-4">
+    <h4>Pending Questions for Review</h4>
+    <div class="card mb-3" th:each="q : ${pendingQuestions}">
+        <div class="card-body">
+            <h6 th:text="${q.questionText}"></h6>
+            <p class="mb-1">A) <span th:text="${q.optionA}"></span> &nbsp; B) <span th:text="${q.optionB}"></span></p>
+            <p class="mb-1">C) <span th:text="${q.optionC}"></span> &nbsp; D) <span th:text="${q.optionD}"></span></p>
+            <p>Correct: <b th:text="${q.correctOption}"></b> | Subject: <span th:text="${q.subject}"></span> | Category: <span th:text="${q.examCategory}"></span> | Difficulty: <span th:text="${q.difficulty}"></span></p>
+            <p>By: <span th:text="${q.createdBy.fullName}"></span></p>
+            <form th:action="@{/hod/questions/review/{id}(id=${q.id})}" method="post" class="row g-2">
+                <div class="col-md-6">
+                    <input type="text" name="comment" class="form-control" placeholder="Comment (optional)">
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" name="decision" value="APPROVED" class="btn btn-success btn-sm">Approve</button>
+                    <button type="submit" name="decision" value="NEEDS_IMPROVEMENT" class="btn btn-warning btn-sm">Needs Improvement</button>
+                    <button type="submit" name="decision" value="REJECTED" class="btn btn-danger btn-sm">Reject</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <p th:if="${#lists.isEmpty(pendingQuestions)}">No pending questions.</p>
+</div>
+</body>
+</html>

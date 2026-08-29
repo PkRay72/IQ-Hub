@@ -1,0 +1,10 @@
+package com.meerut.mit.training;
+
+public class Employeelab {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

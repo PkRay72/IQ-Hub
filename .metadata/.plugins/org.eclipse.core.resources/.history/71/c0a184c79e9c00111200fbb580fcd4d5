@@ -1,0 +1,117 @@
+package com.meerut.mit.training;
+
+class Employee3 {
+	private int  empId;
+	private String name;
+	private String dept;
+	private double salary;
+	public Employee3(int empId, String name, String dept, double salary) {
+		super();
+		this.empId = empId;
+		this.name = name;
+		this.dept = dept;
+		this.salary = salary;
+	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	void displayDetails() {
+		System.out.println("ID : " + empId);
+		System.out.println("Name : "+name);
+		System.out.println("dept : "+dept);
+		System.out.println("salary : "+salary);
+		
+		
+	}
+	
+}
+class FullTimeEmployee extends Employee3{
+	private double  bonus;
+	public FullTimeEmployee(int empId, String name, String dept, double salary, double bonus) {
+		super(empId, name, dept, salary);
+		this.bonus = bonus;
+		double totalcalculateSalary=salary+(salary*bonus)/100;
+		super.setSalary(totalcalculateSalary);
+	}
+	void displayDetails() {
+
+        System.out.println("ID : " + getEmpId());
+        System.out.println("Name : " + getName());
+        System.out.println("Dept : " + getDept());
+       // System.out.println("Basic Salary : " +
+         //       (getSalary() / (1 + bonus / 100)));
+        System.out.println("Bonus : " + bonus + "%");
+        System.out.println("Total Salary : " + getSalary());
+
+        System.out.println();
+    }
+	
+			
+}
+class PartTimeEmployee extends Employee3{
+	private int hours;
+	private double rate;
+	
+	public PartTimeEmployee(int empId, String name, String dept, double salary, int hours, double rate) {
+		super(empId, name, dept, salary);
+		this.hours = hours;
+		this.rate = rate;
+	    
+		double calculateSalary=salary+hours*rate;
+		super.setSalary(calculateSalary);
+		
+	}
+	void displayDetails() {
+
+        System.out.println("ID : " + getEmpId());
+        System.out.println("Name : " + getName());
+        System.out.println("Dept : " + getDept());
+        System.out.println("Working Hours : " + hours);
+        System.out.println("Hourly Rate : " + rate);
+        System.out.println("Total Salary : " + getSalary());
+
+        System.out.println();
+    }
+}
+	
+
+public class Employeelab {
+
+	public static void main(String[] args) {
+		FullTimeEmployee f1 = new FullTimeEmployee(1,"mohan","cse",10000,200);
+		FullTimeEmployee f2 = new FullTimeEmployee(2,"Ram","AI",11000,300);
+		PartTimeEmployee p1 = new PartTimeEmployee(3,"shyam","ML",2000,5,100);
+		f1.displayDetails();
+		//f1. totalcalculateSalary();
+		
+		f2.displayDetails();
+		//f1. totalcalculateSalary();
+		
+		p1.displayDetails();
+		//p1.calculateSalary();		
+
+	}
+
+}
+

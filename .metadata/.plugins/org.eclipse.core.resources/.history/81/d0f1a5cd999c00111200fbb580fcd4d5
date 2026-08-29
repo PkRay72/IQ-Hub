@@ -1,0 +1,94 @@
+package com.meerut.mit.training;
+
+class Employee3 {
+	private int  empId;
+	private String name;
+	private String dept;
+	private double salary;
+	public Employee3(int empId, String name, String dept, double salary) {
+		super();
+		this.empId = empId;
+		this.name = name;
+		this.dept = dept;
+		this.salary = salary;
+	}
+	public int getEmpId() {
+		return empId;
+	}
+	public void setEmpId(int empId) {
+		this.empId = empId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	void displayDetails() {
+		System.out.println("ID" + empId);
+		System.out.println("Name"+name);
+		System.out.println("dept"+dept);
+		System.out.println("salary"+salary);
+		
+		
+	}
+	
+}
+class FullTimeEmployee extends Employee3{
+	private double  bonus;
+	public FullTimeEmployee(int empId, String name, String dept, double salary, double bonus) {
+		super(empId, name, dept, salary);
+		this.bonus = bonus;
+		double totalcalculateSalary=salary+(salary*bonus)/100;
+		super.setSalary(totalcalculateSalary);
+	}
+	
+			
+}
+class PartTimeEmployee extends Employee3{
+	private int hours;
+	private double rate;
+	
+	public PartTimeEmployee(int empId, String name, String dept, double salary, int hours, double rate) {
+		super(empId, name, dept, salary);
+		this.hours = hours;
+		this.rate = rate;
+	    
+		double calculateSalary=salary+hours*rate;
+		super.setSalary(calculateSalary);
+		
+	}
+		
+	}
+	
+
+public class Employeelab {
+
+	public static void main(String[] args) {
+		FullTimeEmployees f1 = new FullTimeEmployees();
+		FullTimeEmployees f2 = new FullTimeEmployees();
+		PartTimeEmployees p1 = new PartTimeEmployees();
+		f1.displayDetails();
+		f1.totalcalCulateSalary();
+		
+		f1.displayDetails();
+		f1.totalcalCulateSalary();
+		
+		p1.displayDetails();
+		p1.calCulateSalary();		
+
+	}
+
+}

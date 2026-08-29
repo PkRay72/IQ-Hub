@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="navbar navbar-dark app-navbar px-3">
+    <span class="navbar-brand">📘 IQHub</span>
+    <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-sm btn-light" th:href="@{/}">Home</a>
+        <a class="btn btn-sm btn-light" th:href="@{/contact}">Contact</a>
+
+        <span sec:authorize="isAnonymous()">
+            <a class="btn btn-sm btn-light" th:href="@{/login}">Login</a>
+            <a class="btn btn-sm btn-light" th:href="@{/register}">Register</a>
+        </span>
+
+        <span sec:authorize="isAuthenticated()">
+            <a class="btn btn-sm btn-light" th:href="@{/profile}">Profile</a>
+            <a sec:authorize="hasRole('TEACHER')" class="btn btn-sm btn-light" th:href="@{/teacher/notifications}">Notifications</a>
+            <form th:action="@{/logout}" method="post" class="d-inline">
+                <button class="btn btn-sm btn-outline-light">Logout</button>
+            </form>
+        </span>
+    </div>
+</nav>
+</body>
+</html>
