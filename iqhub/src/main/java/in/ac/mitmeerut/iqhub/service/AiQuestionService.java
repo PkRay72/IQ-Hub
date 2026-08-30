@@ -19,14 +19,14 @@ import java.util.List;
 @Service
 public class AiQuestionService {
 
-    @Value("${gemini.api.key}")
+    @Value("${groq.api.key}")
     private String apiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    private static final String API_URL =
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
+    private static final String API_URL = "https://api.groq.com/openai/v1/chat/completions";
+    private static final String MODEL = "llama-3.3-70b-versatile";
 
     private static final int MAX_RETRIES = 3;
 
@@ -48,22 +48,23 @@ public class AiQuestionService {
                 "(correctOption must be exactly \"A\", \"B\", \"C\", or \"D\").";
 
         String requestBody = "{"
-                + "\"contents\":[{\"parts\":[{\"text\":" + mapper.valueToTree(prompt) + "}]}]"
+                + "\"model\":\"" + MODEL + "\","
+                + "\"messages\":[{\"role\":\"user\",\"content\":" + mapper.valueToTree(prompt) + "}],"
+                + "\"temperature\":0.7"
                 + "}";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + apiKey);
 
         HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
-
-        String url = API_URL + "?key=" + apiKey;
 
         String response = null;
         Exception lastError = null;
 
         for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
             try {
-                response = restTemplate.postForObject(url, entity, String.class);
+                response = restTemplate.postForObject(API_URL, entity, String.class);
                 break;
             } catch (HttpServerErrorException e) {
                 lastError = e;
@@ -76,7 +77,7 @@ public class AiQuestionService {
         }
 
         if (response == null) {
-            throw new RuntimeException("AI service abhi busy hai (server overloaded). Thodi der baad dobara try karo. Detail: "
+            throw new RuntimeException("AI service abhi busy hai. Thodi der baad dobara try karo. Detail: "
                     + (lastError != null ? lastError.getMessage() : "unknown"));
         }
 
@@ -85,9 +86,8 @@ public class AiQuestionService {
         try {
             JsonNode root = mapper.readTree(response);
 
-            String aiText = root.get("candidates").get(0)
-                    .get("content").get("parts").get(0)
-                    .get("text").asText();
+            String aiText = root.get("choices").get(0)
+                    .get("message").get("content").asText();
 
             aiText = aiText.replaceAll("```json", "").replaceAll("```", "").trim();
 
